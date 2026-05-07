@@ -11,10 +11,11 @@ def load_accounts_db():
             return cursor.fetchall()
 
 def update_account_db(account_id, name, email, balance):
+    # Version de l'apprenant A
     with psycopg2.connect(DATABASE_URL) as conn:
         with conn.cursor() as cursor:
             cursor.execute(
-                "UPDATE accounts SET name = %s, email = %s, balance = %s WHERE id = %s",
-                (name, email, balance or 0, account_id)
+                "UPDATE accounts SET email = %s, balance = %s WHERE id = %s",  # Il enlève 'name'
+                (email, balance or 0, account_id)
             )
             conn.commit()
