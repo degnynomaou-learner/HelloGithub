@@ -1,1 +1,3 @@
 pytest
+pytest-mock
+psycopg2-binary
