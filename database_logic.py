@@ -1,0 +1,20 @@
+import psycopg2
+
+DATABASE_URL = "postgresql://crrae:crrae_umoa@postgresql-34636-0.cloudclusters.net:34636/crrae_umoa?sslmode=require"
+
+def load_accounts_db():
+    with psycopg2.connect(DATABASE_URL) as conn:
+        with conn.cursor() as cursor:
+            cursor.execute(
+                "SELECT id, name, email, balance FROM accounts ORDER BY id"
+            )
+            return cursor.fetchall()
+
+def update_account_db(account_id, name, email, balance):
+    with psycopg2.connect(DATABASE_URL) as conn:
+        with conn.cursor() as cursor:
+            cursor.execute(
+                "UPDATE accounts SET name = %s, email = %s, balance = %s WHERE id = %s",
+                (name, email, balance or 0, account_id)
+            )
+            conn.commit()
